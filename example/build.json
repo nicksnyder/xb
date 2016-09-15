@@ -1,0 +1,28 @@
+{
+  "projectName": "LayoutKit",
+  "xcodeVersion": "8.0.0",
+  "targets": [
+    {
+      "name": "LayoutKit-iOS",
+      "type": "framework",
+      "platform": "iOS",
+      "sources": [
+        "LayoutKit/**/*.swift"
+      ],
+      "dependencies": [
+        "UIKit"
+      ]
+    },
+    {
+      "name": "LayoutKitTests-iOS",
+      "type": "framework-test",
+      "platform": "iOS",
+      "sources": [
+        "LayoutKitTests/**/*.swift"
+      ],
+      "testableDependencies": [
+        "LayoutKit-iOS"
+      ]
+    }
+  ]
+}
