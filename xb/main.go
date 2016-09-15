@@ -12,10 +12,13 @@ func usage() {
 	fmt.Printf(`xb generates and builds xcode projects.
 Usage:
 
-  xb project [config]
-		Generates an Xcode project from the config file.
-		If config is not provided, it defaults to "build.json".
+    xb project [config]
+        Generates an Xcode project from the config file.
+        If config is not provided, it defaults to "build.json".
 
+    xb clean [config]
+        Deletes all files that xb generates.
+        If config is not provided, it defaults to "build.json".
 `)
 }
 
@@ -32,6 +35,12 @@ func main() {
 			configFile = "build.json"
 		}
 		generateProject(configFile)
+	case "clean":
+		configFile := flag.Arg(1)
+		if configFile == "" {
+			configFile = "build.json"
+		}
+		cleanProject(configFile)
 	case "":
 		usage()
 		os.Exit(1)
@@ -43,6 +52,13 @@ func generateProject(configFile string) {
 	check("read project configuration file", err)
 	err = proj.ExportTo(".")
 	check("export project", err)
+}
+
+func cleanProject(configFile string) {
+	proj, err := project.NewFromConfigFile(configFile)
+	check("read project configuration file", err)
+	err = proj.Clean()
+	check("clean project", err)
 }
 
 func check(action string, err error) {

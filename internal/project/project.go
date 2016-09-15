@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
+	"os"
 	"text/template"
 
 	"github.com/nicksnyder/xb/internal/fs"
@@ -47,7 +48,7 @@ func (p *Project) ExportTo(destination string) error {
 	}
 
 	projectFiles := fs.Directory{
-		Name: p.ProjectName + ".xcodeproj",
+		Name: p.directory(),
 		Children: []fs.Exportable{
 			&fs.File{
 				Name:     "project.pbxproj",
@@ -66,6 +67,14 @@ func (p *Project) ExportTo(destination string) error {
 	}
 
 	return projectFiles.ExportTo(destination)
+}
+
+func (p *Project) directory() string {
+	return p.ProjectName + ".xcodeproj"
+}
+
+func (p *Project) Clean() error {
+	return os.RemoveAll(p.directory())
 }
 
 var _ fs.Exportable = (*Project)(nil)
