@@ -6,7 +6,7 @@ func (p *Project) xcworkspacedata() *fs.File {
 	data := map[string]interface{}{
 		"Project": p,
 	}
-	template := newTemplate(pbxprojTemplate, data)
+	template := newTemplate(xcworkspacedataTemplate, data)
 	return &fs.File{
 		Name:     "contents.xcworkspacedata",
 		Contents: template,
