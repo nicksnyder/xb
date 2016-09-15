@@ -11,14 +11,11 @@ import (
 func usage() {
 	fmt.Printf(`xb generates and builds xcode projects.
 Usage:
-    xb [options] [command] [targets...]
 
-Commands:
-    project
-Options:
-    -sourceLanguage tag
-        goi18n uses the strings from this language to seed the translations for other languages.
-        Default: en-us
+  xb project [config]
+		Generates an Xcode project from the config file.
+		If config is not provided, it defaults to "build.json".
+
 `)
 }
 
@@ -30,15 +27,19 @@ func main() {
 	cmd := flag.Arg(0)
 	switch cmd {
 	case "project":
-		generateProject("build.json")
+		configFile := flag.Arg(1)
+		if configFile == "" {
+			configFile = "build.json"
+		}
+		generateProject(configFile)
 	case "":
 		usage()
 		os.Exit(1)
 	}
 }
 
-func generateProject(configFilename string) {
-	proj, err := project.NewFromConfig(configFilename)
+func generateProject(configFile string) {
+	proj, err := project.NewFromConfigFile(configFile)
 	check("read project configuration file", err)
 	err = proj.ExportTo(".")
 	check("export project", err)

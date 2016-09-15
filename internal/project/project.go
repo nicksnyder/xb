@@ -24,7 +24,7 @@ type Target struct {
 	TestableDependencies []string `json:"testableDependencies"`
 }
 
-func NewFromConfig(filename string) (*Project, error) {
+func NewFromConfigFile(filename string) (*Project, error) {
 	bytes, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
