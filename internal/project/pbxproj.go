@@ -1,6 +1,19 @@
 package project
 
-var pbxprojTemplate = parseTemplate(`// !$*UTF8*$!
+import "github.com/nicksnyder/xb/internal/fs"
+
+func (p *Project) pbxproj() *fs.File {
+	data := map[string]interface{}{
+		"Project": p,
+	}
+	template := newTemplate(pbxprojTemplate, data)
+	return &fs.File{
+		Name:     "project.pbxproj",
+		Contents: template,
+	}
+}
+
+var pbxprojTemplate = `// !$*UTF8*$!
 {
 	archiveVersion = 1;
 	classes = {
@@ -31,7 +44,7 @@ var pbxprojTemplate = parseTemplate(`// !$*UTF8*$!
 			attributes = {
 				LastUpgradeCheck = 0800;
 			};
-			buildConfigurationList = 0BA02E4D1D87571500F1E8D3 /* Build configuration list for PBXProject "{{.ProjectName}}" */;
+			buildConfigurationList = 0BA02E4D1D87571500F1E8D3 /* Build configuration list for PBXProject "{{.Project.Name}}" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -63,7 +76,7 @@ var pbxprojTemplate = parseTemplate(`// !$*UTF8*$!
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0BA02E4D1D87571500F1E8D3 /* Build configuration list for PBXProject "{{.ProjectName}}" */ = {
+		0BA02E4D1D87571500F1E8D3 /* Build configuration list for PBXProject "{{.Project.Name}}" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0BA02E4E1D87571500F1E8D3 /* Debug */,
@@ -76,4 +89,4 @@ var pbxprojTemplate = parseTemplate(`// !$*UTF8*$!
 	};
 	rootObject = 0BA02E4A1D87571500F1E8D3 /* Project object */;
 }
-`)
+`

@@ -10,9 +10,13 @@ type Exportable interface {
 	ExportTo(destination string) error
 }
 
+type WriterTo interface {
+	WriteAllTo(io.Writer) error
+}
+
 type File struct {
 	Name     string
-	Contents io.Reader
+	Contents WriterTo
 }
 
 func (f *File) ExportTo(destination string) error {
@@ -21,7 +25,7 @@ func (f *File) ExportTo(destination string) error {
 	if err != nil {
 		return err
 	}
-	_, err = io.Copy(file, f.Contents)
+	err = f.Contents.WriteAllTo(file)
 	if closeErr := file.Close(); err == nil {
 		err = closeErr
 	}
