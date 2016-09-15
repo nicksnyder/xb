@@ -1,4 +1,6 @@
-// !$*UTF8*$!
+package project
+
+var pbxprojTemplate = parseTemplate(`// !$*UTF8*$!
 {
 	archiveVersion = 1;
 	classes = {
@@ -29,7 +31,7 @@
 			attributes = {
 				LastUpgradeCheck = 0800;
 			};
-			buildConfigurationList = 0BA02E4D1D87571500F1E8D3 /* Build configuration list for PBXProject "LayoutKit" */;
+			buildConfigurationList = 0BA02E4D1D87571500F1E8D3 /* Build configuration list for PBXProject "{{.ProjectName}}" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -61,7 +63,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0BA02E4D1D87571500F1E8D3 /* Build configuration list for PBXProject "LayoutKit" */ = {
+		0BA02E4D1D87571500F1E8D3 /* Build configuration list for PBXProject "{{.ProjectName}}" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0BA02E4E1D87571500F1E8D3 /* Debug */,
@@ -74,3 +76,4 @@
 	};
 	rootObject = 0BA02E4A1D87571500F1E8D3 /* Project object */;
 }
+`)
