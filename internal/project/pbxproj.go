@@ -4,7 +4,15 @@ import "github.com/nicksnyder/xb/internal/fs"
 
 func (p *Project) pbxproj() *fs.File {
 	data := map[string]interface{}{
-		"Project": p,
+		"Project":                  p,
+		"ProductsID":               "0B9773641D8AE37900017700",
+		"MainGroupID":              "0BA02E491D87571500F1E8D3",
+		"ProjectObjectID":          "0BA02E4A1D87571500F1E8D3",
+		"BuildConfigurationListID": "0BA02E4D1D87571500F1E8D3",
+		"BuildConfigurations": []BuildConfiguration{
+			{Name: "Debug"},
+			{Name: "Release"},
+		},
 	}
 	template := newTemplate(pbxprojTemplate, data)
 	return &fs.File{
@@ -22,37 +30,37 @@ var pbxprojTemplate = `// !$*UTF8*$!
 	objects = {
 
 /* Begin PBXGroup section */
-		0B9773641D8AE37900017700 /* Products */ = {
+		{{.ProductsID}} /* Products */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0BA02E491D87571500F1E8D3 = {
+		{{.MainGroupID}} = {
 			isa = PBXGroup;
 			children = (
-				0B9773641D8AE37900017700 /* Products */,
+				{{.ProductsID}} /* Products */,
 			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXProject section */
-		0BA02E4A1D87571500F1E8D3 /* Project object */ = {
+		{{.ProjectObjectID}} /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0800;
 			};
-			buildConfigurationList = 0BA02E4D1D87571500F1E8D3 /* Build configuration list for PBXProject "{{.Project.Name}}" */;
+			buildConfigurationList = {{.BuildConfigurationListID}} /* Build configuration list for PBXProject "{{.Project.Name}}" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 0BA02E491D87571500F1E8D3;
-			productRefGroup = 0B9773641D8AE37900017700 /* Products */;
+			mainGroup = {{.MainGroupID}};
+			productRefGroup = {{.ProductsID}} /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -61,32 +69,29 @@ var pbxprojTemplate = `// !$*UTF8*$!
 /* End PBXProject section */
 
 /* Begin XCBuildConfiguration section */
-		0BA02E4E1D87571500F1E8D3 /* Debug */ = {
+		{{- range .BuildConfigurations}}
+		{{.XcodeID}} /* {{.Name}} */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 			};
-			name = Debug;
+			name = {{.Name}};
 		};
-		0BA02E4F1D87571500F1E8D3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Release;
-		};
+		{{- end}}
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0BA02E4D1D87571500F1E8D3 /* Build configuration list for PBXProject "{{.Project.Name}}" */ = {
+		{{.BuildConfigurationListID}} /* Build configuration list for PBXProject "{{.Project.Name}}" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0BA02E4E1D87571500F1E8D3 /* Debug */,
-				0BA02E4F1D87571500F1E8D3 /* Release */,
+				{{- range .BuildConfigurations}}
+				{{.XcodeID}} /* {{.Name}} */
+				{{- end}}
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 0BA02E4A1D87571500F1E8D3 /* Project object */;
+	rootObject = {{.ProjectObjectID}} /* Project object */;
 }
 `

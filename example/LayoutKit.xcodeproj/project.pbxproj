@@ -46,13 +46,13 @@
 /* End PBXProject section */
 
 /* Begin XCBuildConfiguration section */
-		0BA02E4E1D87571500F1E8D3 /* Debug */ = {
+		A603905470E2A5B8C13E96B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 			};
 			name = Debug;
 		};
-		0BA02E4F1D87571500F1E8D3 /* Release */ = {
+		B8E7B465DF7C5979DC731D06 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 			};
@@ -64,8 +64,8 @@
 		0BA02E4D1D87571500F1E8D3 /* Build configuration list for PBXProject "LayoutKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0BA02E4E1D87571500F1E8D3 /* Debug */,
-				0BA02E4F1D87571500F1E8D3 /* Release */,
+				A603905470E2A5B8C13E96B5 /* Debug */
+				B8E7B465DF7C5979DC731D06 /* Release */
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

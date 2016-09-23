@@ -1,9 +1,12 @@
 package project
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"io/ioutil"
 	"os"
+	"strings"
 
 	"github.com/nicksnyder/xb/internal/fs"
 )
@@ -12,15 +15,6 @@ type Project struct {
 	Name         string   `json:"projectName"`
 	XcodeVersion string   `json:"xcodeVersion"`
 	Targets      []Target `json:"targets"`
-}
-
-type Target struct {
-	Name                 string   `json:"name"`
-	Type                 string   `json:"type"`
-	Platform             string   `json:"platform"`
-	Sources              []string `json:"sources"`
-	Dependencies         []string `json:"dependencies"`
-	TestableDependencies []string `json:"testableDependencies"`
 }
 
 func NewFromConfigFile(filename string) (*Project, error) {
@@ -58,6 +52,11 @@ func (p *Project) directory() string {
 
 func (p *Project) Clean() error {
 	return os.RemoveAll(p.directory())
+}
+
+func xcodeID(name string) string {
+	digest := md5.Sum([]byte(name))
+	return strings.ToUpper(hex.EncodeToString(digest[:12]))
 }
 
 var _ fs.Exportable = (*Project)(nil)
